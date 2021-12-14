@@ -1,7 +1,8 @@
 package caves
 
 class CaveNetwork(
-    private val caveLayout: List<String>
+    caveLayout: List<String>,
+    private val stopCondition: (String, List<String>) -> Boolean = ::smallCavesOnlyOnce
 ) {
     private val network = parseLayout(caveLayout)
 
@@ -13,17 +14,37 @@ class CaveNetwork(
         return visit(from, to, emptyList()).toSet()
     }
 
-    private fun visit(station: String, to: String, stationsVisited: List<String>): List<List<String>> {
+    private fun visit(
+        station: String,
+        to: String,
+        stationsVisited: List<String>
+    ): List<List<String>> {
         val connectingStations = network[station] ?: return emptyList()
         return if (station == to) {
             listOf(stationsVisited + station)
         } else {
-            val toVisit = connectingStations - stationsVisited.filter { it.any { c -> c.isLowerCase() } }.toSet()
-            toVisit
+            connectingStations
+                .filter { !stopCondition(it, stationsVisited) }
                 .map { visit(it, to, stationsVisited + station) }
                 .fold(listOf()) { acc, el -> acc + el }
-
         }
     }
+}
 
+fun smallCavesOnlyOnce(station: String, stationsVisited: List<String>) =
+    station.all { it.isLowerCase() } && stationsVisited.contains(station)
+
+fun singleSmallCaveDoubleOthersOnlyOnce(station: String, stationsVisited: List<String>): Boolean {
+    return if (station.any { it.isUpperCase() }) {
+        false
+    } else if (station == "start" && stationsVisited.isNotEmpty()) {
+        true
+    } else {
+        val smallStationsVisited = stationsVisited.filter { it.all { c -> c.isLowerCase() } }
+        val visitedStationsByCount = (smallStationsVisited + station).groupingBy { it }.eachCount()
+        val stationsVisitedMoreThanOnce = visitedStationsByCount.filter { (_, v) -> v >= 2 }
+        val anyStationVisitedMoreThanTwice = stationsVisitedMoreThanOnce.any { (_, v) -> v > 2 }
+
+        stationsVisitedMoreThanOnce.size > 1 || anyStationVisitedMoreThanTwice
+    }
 }

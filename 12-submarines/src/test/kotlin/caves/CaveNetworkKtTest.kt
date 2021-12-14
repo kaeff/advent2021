@@ -3,7 +3,7 @@ package caves
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class CaveNetworkTest {
+class CaveNetworkKtTest {
 
     @Test
     fun `single-route network`() {
@@ -51,5 +51,29 @@ class CaveNetworkTest {
             listOf("start", "A", "end"),
             listOf("start", "A", "b", "A", "end")
         )
+    }
+
+    @Test
+    internal fun `stopConditionExtension small caves only once one twice`() {
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("a", listOf("a"))).isEqualTo(false)
+
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("a", listOf("a", "b"))).isEqualTo(false)
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("b", listOf("a", "b"))).isEqualTo(false)
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("b", listOf("D", "D", "a", "b"))).isEqualTo(false)
+
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("a", listOf("a", "a", "b"))).isEqualTo(true)
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("b", listOf("a", "a", "b"))).isEqualTo(true)
+
+    }
+
+    @Test
+    internal fun `stopConditionExtension big caves not limited`() {
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("A", listOf("A", "A"))).isEqualTo(false)
+    }
+
+    @Test
+    internal fun `stopConditionExtension don't go back to start`() {
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("start", listOf())).isEqualTo(false)
+        assertThat(singleSmallCaveDoubleOthersOnlyOnce("start", listOf("a"))).isEqualTo(true)
     }
 }

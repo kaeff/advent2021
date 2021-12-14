@@ -4,9 +4,10 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 
-class CaveNetworkAcceptanceTest {
+class ExtensionAcceptanceTest {
+
     @Test
-    fun `number of routes on example network`() {
+    internal fun `visit small cave twice`() {
         val caveLayout = """
             start-A
             start-b
@@ -17,8 +18,8 @@ class CaveNetworkAcceptanceTest {
             b-end
         """.trimIndent().split("\n")
 
-        val graph = CaveNetwork(caveLayout)
+        val graph = CaveNetwork(caveLayout, ::singleSmallCaveDoubleOthersOnlyOnce)
 
-        assertEquals(10, graph.numberOfRoutes("start", "end"))
+        assertEquals(36, graph.numberOfRoutes("start", "end"))
     }
 }
