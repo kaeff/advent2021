@@ -1,4 +1,4 @@
-package caves
+package day12
 
 fun parseLayout(caveLayout: List<String>): Map<String, Set<String>> {
     val connections = caveLayout

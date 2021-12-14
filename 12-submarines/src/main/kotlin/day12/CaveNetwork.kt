@@ -1,4 +1,4 @@
-package caves
+package day12
 
 class CaveNetwork(
     caveLayout: List<String>,
