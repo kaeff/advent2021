@@ -16,6 +16,7 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:5.8.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("org.assertj:assertj-core:3.21.0")
+    testImplementation ("com.github.stefanbirkner:system-lambda:1.2.0")
     implementation(kotlin("stdlib"))
 }
 
