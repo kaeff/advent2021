@@ -27,17 +27,4 @@ internal class MainKtTest {
         assertThat(output).isEqualTo("""5""")
     }
 
-    @Test
-    internal fun `count single increase`() {
-        assertThat(countIncreases(listOf())).isEqualTo(0)
-        assertThat(countIncreases(listOf(1,2,3))).isEqualTo(0)
-        assertThat(countIncreases(listOf(1,2,3,4))).isEqualTo(1)
-
-        assertThat(countIncreases(listOf(1, 2))).isEqualTo(1)
-        assertThat(countIncreases(listOf(1, 1, 2))).isEqualTo(1)
-        assertThat(countIncreases(listOf(1, 3, 2))).isEqualTo(1)
-
-        assertThat(countIncreases(listOf(1, 2, 3))).isEqualTo(2)
-    }
-
 }
