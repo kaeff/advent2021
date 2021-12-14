@@ -1,10 +1,10 @@
-package day1
+package day1.part2
 
-import com.github.stefanbirkner.systemlambda.SystemLambda.tapSystemOut
+import com.github.stefanbirkner.systemlambda.SystemLambda
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class Day1KtTest {
+internal class MainKtTest {
     @Test
     internal fun example() {
         val args = """
@@ -20,22 +20,24 @@ internal class Day1KtTest {
             263
         """.trimIndent().split("\n").toTypedArray()
 
-        val output = tapSystemOut {
+        val output = SystemLambda.tapSystemOut {
             main(args)
         }.strip()
 
-        assertThat(output).isEqualTo("""7""")
+        assertThat(output).isEqualTo("""5""")
     }
 
     @Test
     internal fun `count single increase`() {
         assertThat(countIncreases(listOf())).isEqualTo(0)
-        assertThat(countIncreases(listOf(1))).isEqualTo(0)
+        assertThat(countIncreases(listOf(1,2,3))).isEqualTo(0)
+        assertThat(countIncreases(listOf(1,2,3,4))).isEqualTo(1)
 
-        assertThat(countIncreases(listOf(1,2))).isEqualTo(1)
+        assertThat(countIncreases(listOf(1, 2))).isEqualTo(1)
         assertThat(countIncreases(listOf(1, 1, 2))).isEqualTo(1)
         assertThat(countIncreases(listOf(1, 3, 2))).isEqualTo(1)
 
         assertThat(countIncreases(listOf(1, 2, 3))).isEqualTo(2)
     }
+
 }

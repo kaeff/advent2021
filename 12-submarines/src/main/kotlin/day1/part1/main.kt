@@ -1,4 +1,4 @@
-package day1
+package day1.part1
 
 fun main(args: Array<String>) {
     val depthScans = args.map { it.toInt() }
@@ -8,5 +8,7 @@ fun main(args: Array<String>) {
 
 fun countIncreases(depthScans: List<Int>) = depthScans
     .windowed(2)
-    .map { (last, current) -> last < current }
+    .map { (last, current) ->
+        last < current
+    }
     .count { it }
